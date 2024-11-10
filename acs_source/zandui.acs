@@ -5,6 +5,7 @@
 
 #import "zcommon.bcs"
 #import "lib/bcsutils.g.acs"
+#import "lib/log.g.acs"
 
-#include "global.acs"
-#include "element.acs"
+#include "core/global.acs"
+#include "core/element.acs"

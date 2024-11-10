@@ -11,7 +11,7 @@ enum FLAG_ELEMENT
     ELEMENT_ALIGN_MIDDLE = 16,
     ELEMENT_ALIGN_BOTTOM = 32,
 
-    ELEMENT_FLAG_DEFAULT = ELEMENT_ALIGN_LEFT|ELEMENT_ALIGN_TOP;
+    ELEMENT_FLAG_DEFAULT = ELEMENT_ALIGN_LEFT|ELEMENT_ALIGN_TOP
 };
 
 struct Element_T
@@ -22,10 +22,10 @@ struct Element_T
     int y;
 
     // these are used for hitbox.
-    private int min_x;
-    private int max_x;
-    private int min_y;
-    private int max_y;
+    int min_x;
+    int max_x;
+    int min_y;
+    int max_y;
 
     str image;
     str image_hover;
@@ -37,34 +37,40 @@ struct Element_T
     int flags;
 
     str command; // Command to send when clicked
-
-    // Checks if a coordinate is hovering this elementz
-    bool coordHovered(int x, int y)
-    {
-        return false;
-    }
-
-    bool isHovered()
-    {
-        return false;
-    }
-
-    void checkClick()
-    {
-        if(isHovered() && mouseClicked() && command != "")
-        {
-            _zandui.command = command;
-            LogDebug(name + ".checkClick(): set command to " + command);
-        }
-        return;
-    }
 };
 
 //@public
-//@summary creates an element \n if 
-Element_T createElement(int x, int y, int width, int height, int flags, str image, str image_hover, str image_clicked, str command, str name)
+//@summary Checks if a coordinate is hovering this elementz
+bool coordHovered(Element_T& elem, int x, int y)
 {
-    Element_T temp;
+    return false;
+}
+
+//@public
+bool isHovered(Element_T& elem)
+{
+    return false;
+}
+
+//@public
+void checkClick(Element_T& elem)
+{
+    if(isHovered(elem) && mouseClicked() && elem.command != "")
+    {
+        _global.command = elem.command;
+        LogDebug(elem.name + ".checkClick(): set command to " + elem.command);
+    }
+    return;
+}
+
+// It is required as BCS want them initialized when they are local vars.
+private Element_T _empty_element = {"", 0, 0, 0, 0, 0, 0, "", "", "", 0, 0, 0, ""};
+
+//@public
+//@summary creates an element \n if 
+Element_T& createElement(int x, int y, int width, int height, int flags, str image, str image_hover, str image_clicked, str command, str name)
+{
+    Element_T& temp = _empty_element;
     temp.x = x;
     temp.y = y;
     temp.width = width;
