@@ -1,0 +1,15 @@
+strict namespace zandui{
+
+struct zandui
+{
+    str command;
+
+    bool mouseClicked()
+    {
+        return KeyPressed(BT_ATTACK);
+    }
+}
+
+struct zandui global;
+
+}

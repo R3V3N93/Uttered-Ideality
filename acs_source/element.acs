@@ -1,0 +1,92 @@
+strict namespace zandui {
+
+enum FLAG_ELEMENT
+{   
+    // Horizontal
+    ELEMENT_ALIGN_LEFT = 1,
+    ELEMENT_ALIGN_CENTER = 2,
+    ELEMENT_ALIGN_RIGHT = 4,
+    // Vertical
+    ELEMENT_ALIGN_TOP = 8,
+    ELEMENT_ALIGN_MIDDLE = 16,
+    ELEMENT_ALIGN_BOTTOM = 32,
+
+    ELEMENT_FLAG_DEFAULT = ELEMENT_ALIGN_LEFT|ELEMENT_ALIGN_TOP;
+};
+
+struct Element_T
+{
+    str name;
+
+    int x;
+    int y;
+
+    // these are used for hitbox.
+    private int min_x;
+    private int max_x;
+    private int min_y;
+    private int max_y;
+
+    str image;
+    str image_hover;
+    str image_clicked;
+
+    int width;
+    int height;
+
+    int flags;
+
+    str command; // Command to send when clicked
+
+    // Checks if a coordinate is hovering this elementz
+    bool coordHovered(int x, int y)
+    {
+        return false;
+    }
+
+    bool isHovered()
+    {
+        return false;
+    }
+
+    void checkClick()
+    {
+        if(isHovered() && mouseClicked() && command != "")
+        {
+            _zandui.command = command;
+            LogDebug(name + ".checkClick(): set command to " + command);
+        }
+        return;
+    }
+};
+
+//@public
+//@summary creates an element \n if 
+Element_T createElement(int x, int y, int width, int height, int flags, str image, str image_hover, str image_clicked, str command, str name)
+{
+    Element_T temp;
+    temp.x = x;
+    temp.y = y;
+    temp.width = width;
+    temp.height = height;
+
+    if(flags == 0)
+        temp.flags = ELEMENT_FLAG_DEFAULT;
+    else
+        temp.flags = flags;
+
+    temp.image = image;
+    temp.image_hover = image_hover;
+    temp.image_clicked = image_clicked;
+    temp.command = command;
+
+    if(name == "")
+        temp.name = "ZANDUI_UNKNOWN_ELEMENT";
+    else
+        temp.name = name;
+
+    LogDebug(__FUNCTION__+": Successfully created an element " + name);
+    return temp;
+}
+
+}

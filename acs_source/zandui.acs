@@ -1,0 +1,10 @@
+#nocompact
+#pragma raw include on
+
+#library "zandui"
+
+#import "zcommon.bcs"
+#import "lib/bcsutils.g.acs"
+
+#include "global.acs"
+#include "element.acs"
