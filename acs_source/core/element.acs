@@ -34,6 +34,9 @@ struct Element_T
     int width;
     int height;
 
+    // 0.0 ~ 1.0    
+    fixed alpha;
+
     int flags;
 
     str command; // Command to send when clicked
@@ -68,7 +71,7 @@ private Element_T _empty_element = {"", 0, 0, 0, 0, 0, 0, "", "", "", 0, 0, 0, "
 
 //@public
 //@summary creates an element \n if 
-Element_T& createElement(int x, int y, int width, int height, int flags, str image, str image_hover, str image_clicked, str command, str name)
+Element_T& createElement(int x, int y, int width, int height, int flags, str image, str image_hover, str image_clicked, fixed alpha, str command, str name)
 {
     Element_T& temp = _empty_element;
     temp.x = x;
@@ -84,15 +87,32 @@ Element_T& createElement(int x, int y, int width, int height, int flags, str ima
     temp.image = image;
     temp.image_hover = image_hover;
     temp.image_clicked = image_clicked;
+    temp.alpha = alpha;
     temp.command = command;
 
     if(name == "")
-        temp.name = "ZANDUI_UNKNOWN_ELEMENT";
-    else
-        temp.name = name;
+        return null;
+    temp.name = name;
 
     LogDebug(__FUNCTION__+": Successfully created an element " + name);
     return temp;
+}
+
+void drawElement(Element_T& elem, int layer)
+{
+    text = elem.image;
+    if(StrSlice(text, 0, 1) == ":")
+    {
+        text = StrSlice(text, 1, StrLen(text));
+    }
+    else
+    {
+        SetFont(text);
+        text = "A";
+    }
+
+    HudMessage(s:text; HUDMSG_PLAIN, layer, CR_UNTRANSLATED, fixed(elem.min_x), fixed(elem.min_y), 0.0, 1.0);
+    checkClick(elem);
 }
 
 }
