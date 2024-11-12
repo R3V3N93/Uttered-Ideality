@@ -101,7 +101,7 @@ Element_T& createElement(int x, int y, int width, int height, int flags, str ima
 void drawElement(Element_T& elem, int layer)
 {
     text = elem.image;
-    if(StrSlice(text, 0, 1) == ":")
+    if(StrSlice(text, 0, 1) == ":") // If the first character is ':'
     {
         text = StrSlice(text, 1, StrLen(text));
     }
