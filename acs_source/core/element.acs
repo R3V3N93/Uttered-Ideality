@@ -95,6 +95,38 @@ Element_T& createElement(int x, int y, int width, int height, int flags, str ima
     temp.name = name;
 
     LogDebug(__FUNCTION__+": Successfully created an element " + name);
+
+    if(temp.flag & ELEMENT_ALIGN_LEFT)
+    {
+        temp.min_x = temp.x;
+        temp.max_x = temp.width;
+    }
+    if(temp.flag & ELEMENT_ALIGN_CENTER)
+    { 
+        temp.min_x = temp.x - temp.width / 2;
+        temp.max_x = temp.x + temp.width / 2;
+    }
+    if(temp.flag & ELEMENT_ALIGN_RIGHT)
+    {
+        temp.min_x = temp.x - temp.width;
+        temp.max_x = temp.x;
+    }
+
+    if(temp.flag & ELEMENT_ALIGN_TOP)
+    {
+        temp.min_y = temp.y + temp.height;
+        temp.max_y = temp.y;
+    }
+    if(temp.flag & ELEMENT_ALIGN_MIDDLE)
+    {
+        temp.min_y = temp.y + temp.height / 2;
+        temp.max_y = temp.y - temp.height / 2;
+    }
+    if(temp.flag & ELEMENT_ALIGN_BOTTOM)
+    {
+        temp.min_y = temp.y;
+        temp.max_y = temp.y - temp.height;
+    }
     return temp;
 }
 
