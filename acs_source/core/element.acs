@@ -67,7 +67,7 @@ void checkClick(Element_T& elem)
 }
 
 // It is required as BCS want them initialized when they are local vars.
-private Element_T _empty_element = {"", 0, 0, 0, 0, 0, 0, "", "", "", 0, 0, 0, ""};
+private Element_T _empty_element = {"", 0, 0, 0, 0, 0, 0, "", "", "", "", 0, 0, 0, ""};
 
 //@public
 //@summary creates an element \n if 
@@ -96,36 +96,31 @@ Element_T& createElement(int x, int y, int width, int height, int flags, str ima
 
     LogDebug(__FUNCTION__+": Successfully created an element " + name);
 
+    // Assuming that engine centers images/texts by default
+    temp.min_x = temp.x - temp.width / 2;
+    temp.max_x = temp.x + temp.width / 2;
+
+    temp.min_y = temp.y - temp.height / 2;
+    temp.max_y = temp.y + temp.height / 2;;
+
     if(temp.flag & ELEMENT_ALIGN_LEFT)
     {
-        temp.min_x = temp.x;
-        temp.max_x = temp.width;
+        temp.x = temp.min_x;
     }
-    if(temp.flag & ELEMENT_ALIGN_CENTER)
-    { 
-        temp.min_x = temp.x - temp.width / 2;
-        temp.max_x = temp.x + temp.width / 2;
-    }
+    if(temp.flag & ELEMENT_ALIGN_CENTER) {}
     if(temp.flag & ELEMENT_ALIGN_RIGHT)
     {
-        temp.min_x = temp.x - temp.width;
-        temp.max_x = temp.x;
+        temp.x = temp.max_x;
     }
 
     if(temp.flag & ELEMENT_ALIGN_TOP)
     {
-        temp.min_y = temp.y + temp.height;
-        temp.max_y = temp.y;
+        temp.y = temp.min_y;
     }
-    if(temp.flag & ELEMENT_ALIGN_MIDDLE)
-    {
-        temp.min_y = temp.y + temp.height / 2;
-        temp.max_y = temp.y - temp.height / 2;
-    }
+    if(temp.flag & ELEMENT_ALIGN_MIDDLE){}
     if(temp.flag & ELEMENT_ALIGN_BOTTOM)
     {
-        temp.min_y = temp.y;
-        temp.max_y = temp.y - temp.height;
+        temp.y = temp.max_y;
     }
     return temp;
 }
@@ -140,10 +135,16 @@ void drawElement(Element_T& elem, int layer)
     else
     {
         SetFont(text);
+
+        if(isHovered(elem))
+            SetFont(elem.image_hover);
+        if(checkClick(elem))
+            SetFont(elem.image_clicked);
+            
         text = "A";
     }
 
-    HudMessage(s:text; HUDMSG_PLAIN, layer, CR_UNTRANSLATED, fixed(elem.min_x), fixed(elem.min_y), 0.0, 1.0);
+    HudMessage(s:text; HUDMSG_PLAIN, layer, CR_UNTRANSLATED, fixed(elem.x), fixed(elem.y), 0.0, 1.0);
     checkClick(elem);
 }
 
