@@ -4,9 +4,18 @@
 #library "zandui"
 
 #import "zcommon.bcs"
+#include "lib/libbcs.bcs"
 #import "lib/bcsutils.g.acs"
 #import "lib/log.g.acs"
 
 #include "core/global.acs"
 #include "core/element.acs"
 
+strict namespace {
+Script "TEST" Enter
+{
+    zandui::Element_T? testElement = zandui::createElement(720, 540, 500, 500, 0, "uitest", "", "", 1.0, "", "test element");
+    SetHudSize(1440, 1080, false);
+    zandui::drawElement(testElement, 100);
+}
+}
